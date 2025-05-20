@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Evento;
 use Illuminate\Http\Request;
 
+
 class EventoController extends Controller
 {
     /**
@@ -13,6 +14,7 @@ class EventoController extends Controller
     public function index()
     {
         //
+        return view('evento.index');
     }
 
     /**
@@ -29,6 +31,8 @@ class EventoController extends Controller
     public function store(Request $request)
     {
         //
+        request()->validate(Evento::$rules);//validar los datos de eventos es decir tabla agregar recordatorio
+        $evento = Evento::create($request->all());//crear el evento
     }
 
     /**
