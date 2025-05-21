@@ -1,4 +1,3 @@
-
 //funcionalidad de calendar
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -17,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
         displayEventTime: false, //muestra la hora del evento
 
         headerToolbar: {
-            left: 'prev,next today', //botones de navegación
+            left: 'prev,next', //botones de navegación
             center: 'title', //titulo del calendario
-            right: 'dayGridMonth,' //vistas del calendario
+            right: 'dayGridMonth' //vistas del calendario
         },
 
 

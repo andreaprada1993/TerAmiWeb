@@ -1,5 +1,5 @@
 <p align="center">
-    <img src=src="public/img/logo.png" alt="Logo Terami" width="150">
+    <img src="public/img/logo.png" alt="Logo Terami" width="150">
 </p>
 
 <h1 align="center">TerAmi</h1>
