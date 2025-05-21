@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Evento;
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 
 class EventoController extends Controller
 {
@@ -41,14 +43,20 @@ class EventoController extends Controller
     public function show(Evento $evento)
     {
         //
+        $evento = Evento::all();//acceder directamente a los registros
+        return response()->json($evento);//devolviendo el formato
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Evento $evento)
+    public function edit($id)
     {
         //
+        $evento = Evento::find($id);//buscar el evento por id
+        $evento->start = Carbon::createFromFormat('Y-m-d H:i:s', $evento->start)->format('Y-m-d');//convertir el evento a formato de fecha
+        $evento->end = Carbon::createFromFormat('Y-m-d H:i:s', $evento->end)->format('Y-m-d');//arregla para que solo se mire año,mes y dia
+        return response()->json($evento);//devolviendo el formato
     }
 
     /**
@@ -57,13 +65,20 @@ class EventoController extends Controller
     public function update(Request $request, Evento $evento)
     {
         //
+        request()->validate(Evento::$rules);//validar los datos de eventos es decir tabla agregar recordatorio
+        $evento->update($request->all());//hacer la actualizacion
+        return response()->json($evento);//datos que salen
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Evento $evento)
+    public function destroy($id)
     {
         //
+
+        $evento=Evento::find($id)->delete();//eliminar el evento
+        
+        return response()->json($evento);// una vez eliminado regrese a evento
     }
 }
