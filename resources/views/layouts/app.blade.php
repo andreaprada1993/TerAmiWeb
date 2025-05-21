@@ -19,6 +19,11 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- obtener la url de la pagina,  la va imprimir como url-->
+<script type="text/javascript">
+    var baseURL = {!! json_encode(url('/')) !!};
+</script>
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
