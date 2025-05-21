@@ -19,8 +19,7 @@
     <div class="modal-content">
       <div class="modal-header">
       <h5 class="modal-title" id="modalLabel">Datos del evento</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-        <span aria-hidden="true">&times;</span>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="cerrar">
       </button>
       </div>
       <div class="modal-body">
@@ -75,7 +74,7 @@
       <button type="button" class="btn btn-success" id="btnGuardar">Guardar</button>
       <button type="button" class="btn btn-warning" id="btnModificar">Modificar</button>
       <button type="button" class="btn btn-danger" id="btnEliminar">Eliminar</button>
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>-->
 
       </div>
     </div>
