@@ -1,6 +1,9 @@
 //funcionalidad de calendar
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
+
 
     let formulario = document.querySelector("#formularioEventos"); //busca el formulario por su id
 
@@ -18,16 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
         headerToolbar: {
             left: 'prev,next', //botones de navegación
             center: 'title', //titulo del calendario
-            right: 'dayGridMonth' //vistas del calendario
+            right: 'dayGridMonth,timeGridWeek,timeGridDay', //vistas del calendario
+            slotMinTime: "06:00:00", // hora mínima visible (6 a. m.)
+            slotMaxTime: "22:00:00", // hora máxima visible (10 p. m.)
         },
 
 
         //events: "http://localhost/TerAmiWeb/public/evento/mostrar", //url para obtener los eventos del calendario
-//es lo mismo pero con el metodo POST
-        eventSources:{
+        //es lo mismo pero con el metodo POST
+        eventSources: {
             url: baseURL + "/evento/mostrar", //url para obtener los eventos del calendario
-            method:'POST', //metodo para obtener los eventos del calendario
-            extraParams:{
+            method: 'POST', //metodo para obtener los eventos del calendario
+            extraParams: {
                 _token: formulario._token.value, //token para la seguridad del formulario
             }
         },
@@ -58,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(evento); //muestra el evento en la consola
 
 
-            axios.post(baseURL+"/evento/editar/" + info.event.id). //envia los datos al servidor utilizando un parametro info.event.id porque es el post id 
+            axios.post(baseURL + "/evento/editar/" + info.event.id). //envia los datos al servidor utilizando un parametro info.event.id porque es el post id 
                 then(
                     (respuesta) => {
                         //recupera los datos del evento
