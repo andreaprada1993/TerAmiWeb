@@ -10,9 +10,6 @@
   <!-- button trigger modal -->
 
 
-
-
-
   <!-- Modal -->
   <div class="modal fade" id="evento" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -81,7 +78,7 @@
     </div>
   </div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
 @endsection

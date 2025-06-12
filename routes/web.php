@@ -5,15 +5,16 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 Route::get('/', function () {
-    return view('evento.index');
+    return view('home');
 })->middleware("auth");
 
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function(){
 
-Route::get('/evento', [App\Http\Controllers\EventoController::class, 'index']);//mostrar la vista de evento
+Route::get('/evento', [App\Http\Controllers\EventoController::class, 'index'])->name('evento.index');//mostrar la vista de evento
 Route::post('/evento/mostrar', [App\Http\Controllers\EventoController::class, 'show']);//mostrar la vista de evento
 Route::post('/evento/agregar', [App\Http\Controllers\EventoController::class, 'store']);//guardar el evento
 Route::post('/evento/editar/{id}', [App\Http\Controllers\EventoController::class, 'edit']);//editar el evento
@@ -23,5 +24,10 @@ Route::post('/evento/borrar/{id}', [App\Http\Controllers\EventoController::class
 });
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');//mostrar la vista de eventos
+
+Route::get('/home', [App\Http\Controllers\InicioController::class, 'index'])->middleware('auth')->name('inicio');//mostrar la vista de eventos
+
+
+
+
 
