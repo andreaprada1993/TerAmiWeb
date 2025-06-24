@@ -34,7 +34,17 @@ class EventoController extends Controller
     {
         //
         request()->validate(Evento::$rules);//validar los datos de eventos es decir tabla agregar recordatorio
-        $evento = Evento::create($request->all());//crear el evento
+
+        $evento = new Evento();
+        $evento->title = $request->title;
+        $evento->descripcion = $request->descripcion;
+        $evento->start = $request->start;
+        $evento->end = $request->end;
+        // 👇 Esta línea es la clave
+        $evento->user_id = auth()->id(); // 👈 Esto es lo que asegura que el evento pertenece al usuario actual
+        $evento->save();
+
+        return response()->json($evento); // para confirmar que se guardó bien
     }
 
     /**
@@ -77,8 +87,8 @@ class EventoController extends Controller
     {
         //
 
-        $evento=Evento::find($id)->delete();//eliminar el evento
-        
+        $evento = Evento::find($id)->delete();//eliminar el evento
+
         return response()->json($evento);// una vez eliminado regrese a evento
     }
 }

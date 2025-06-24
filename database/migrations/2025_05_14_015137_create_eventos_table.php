@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,13 +13,15 @@ return new class extends Migration
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
 
-            $table->string('title',255);
+            $table->string('title', 255);
             $table->text('descripcion');
 
 
             $table->dateTime('start');
             $table->dateTime('end');
 
+            $table->unsignedBigInteger('user_id'); // 🟢 Clave foránea al usuario
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\EventoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+
 
 
 
@@ -21,11 +23,12 @@ Route::post('/evento/editar/{id}', [App\Http\Controllers\EventoController::class
 Route::post('/evento/actualizar/{evento}', [App\Http\Controllers\EventoController::class, 'update']);//actualizar el evento
 Route::post('/evento/borrar/{id}', [App\Http\Controllers\EventoController::class, 'destroy']);//eliminar el evento
 
+Route::get('/', [HomeController::class, 'index'])->middleware('auth');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 });
 
 
-
-Route::get('/home', [App\Http\Controllers\InicioController::class, 'index'])->middleware('auth')->name('inicio');//mostrar la vista de eventos
 
 
 
