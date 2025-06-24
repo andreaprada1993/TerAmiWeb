@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Evento;
 
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -23,6 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        
+       $tareasPendientes = Evento::where('user_id', auth()->id())
+                              ->where('start', '>=', now())
+                              ->orderBy('start')
+                              ->get();
+
+    return view('home', compact('tareasPendientes'));
     }
 }

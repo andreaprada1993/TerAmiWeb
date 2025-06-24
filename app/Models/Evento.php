@@ -23,6 +23,7 @@ class Evento extends Model
         'descripcion',
         'start',
         'end',
+        'user_id' // 🔑 importante para identificar al usuario dueño del evento
     ];
 
 
