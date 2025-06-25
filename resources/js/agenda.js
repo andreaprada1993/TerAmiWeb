@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let formulario = document.querySelector("#formularioEventos"); //busca el formulario por su id
 
+    if (!formulario) {
+        console.error("❌ No se encontró el formulario con id #formularioEventos");
+        return;
+    }
+
     var calendarEl = document.getElementById('agenda'); //busca el div y lo convierte en una agenda
     var calendar = new FullCalendar.Calendar(calendarEl, {
 
@@ -54,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // intrucciones del calendario $("#evento").modal("show"); //muestra el modal, pero no me funciono
 
         },
+        
 
         //funcionalidad para editar el evento
 
@@ -88,6 +94,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 )
 
         }//funcionalidad de editar evento
+
+        
+        
 
     }); // intrucciones del calendario
 
@@ -138,3 +147,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 }); //esta funcion se ejecuta cuando el DOM se ha cargado completamente, 
+
