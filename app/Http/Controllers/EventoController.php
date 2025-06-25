@@ -91,4 +91,28 @@ class EventoController extends Controller
 
         return response()->json($evento);// una vez eliminado regrese a evento
     }
+
+    /**
+     * Marcar una tarea como realizada.
+     */
+    public function marcarRealizada($id)
+    {
+        $evento = Evento::findOrFail($id);
+        $evento->estado = 'realizada';
+        $evento->save();
+
+        return redirect()->back()->with('success', 'Tarea marcada como realizada');
+    }
+
+    /**
+     * Marcar una tarea como sin hacer.
+     */
+    public function marcarSinHacer($id)
+    {
+        $evento = Evento::findOrFail($id);
+        $evento->estado = 'sin_hacer';
+        $evento->save();
+
+        return redirect()->back()->with('success', 'Tarea marcada como sin hacer');
+    }
 }

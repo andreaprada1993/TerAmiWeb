@@ -22,7 +22,7 @@
                 <ul class="list-group">
                     @foreach($tareasPendientes as $tarea)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{-- Enlace a calendario --}}
+
                             <a href="{{ route('evento.index') }}" class="text-decoration-none text-dark">
                                 {{ $tarea->title }}
                             </a>
