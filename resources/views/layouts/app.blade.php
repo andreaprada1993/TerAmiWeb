@@ -34,7 +34,8 @@
 <body>
 
     <div id="app">
-        @if (!Request::routeIs('login') && !Request::routeIs('register'))
+        @if (!Request::routeIs('login') && !Request::routeIs('register') && !Request::routeIs('inicio') )
+        {{-- Navbar --}}
        <nav class="navbar navbar-expand-md navbar-dark bg-secondary shadow-sm fixed-top">
     <div class="container">
         {{-- Logo principal --}}
@@ -100,6 +101,7 @@
 </nav>
 @endif
         <!-- Scripts -->
+         
 
 
         @vite(['resources/js/agenda.js'])

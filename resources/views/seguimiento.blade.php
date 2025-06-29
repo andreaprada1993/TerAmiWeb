@@ -1,5 +1,4 @@
-@extends('layouts.guest')
-
+@extends('layouts.app')
 @section('title', 'Seguimiento de Tareas')
 
 @section('content')
@@ -22,10 +21,19 @@
                                             <strong>{{ $tarea->title }}</strong><br>
                                             <small>{{ \Carbon\Carbon::parse($tarea->start)->format('d/m/Y H:i') }}</small>
                                         </div>
-                                        <form action="{{ route('evento.realizar', $tarea->id) }}" method="POST" class="ms-2">
-                                            @csrf
-                                            <button class="btn btn-success btn-sm" title="Marcar como realizada">✔</button>
-                                        </form>
+                                        <div class="d-flex">
+                                            {{-- Realizada --}}
+                                            <form action="{{ route('evento.realizar', $tarea->id) }}" method="POST" class="me-1">
+                                                @csrf
+                                                <button class="btn btn-success btn-sm" title="Marcar como realizada">✔</button>
+                                            </form>
+
+                                            {{-- No realizada --}}
+                                            <form action="{{ route('evento.sin_hacer', $tarea->id) }}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-danger btn-sm" title="Marcar como no realizada">✖</button>
+                                            </form>
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
@@ -51,10 +59,19 @@
                                             <strong>{{ $tarea->title }}</strong><br>
                                             <small>{{ \Carbon\Carbon::parse($tarea->start)->format('d/m/Y H:i') }}</small>
                                         </div>
-                                        <form action="{{ route('evento.sin_hacer', $tarea->id) }}" method="POST" class="ms-2">
-                                            @csrf
-                                            <button class="btn btn-danger btn-sm" title="Marcar como sin hacer">✖</button>
-                                        </form>
+                                        <div class="d-flex">
+                                            {{-- Botón para marcar como sin hacer --}}
+                                            <form action="{{ route('evento.sin_hacer', $tarea->id) }}" method="POST" class="me-1">
+                                                @csrf
+                                                <button class="btn btn-danger btn-sm" title="Marcar como sin hacer">✖</button>
+                                            </form>
+
+                                            {{-- Botón para devolver a pendiente --}}
+                                            <form action="{{ route('evento.pendiente', $tarea->id) }}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-warning btn-sm" title="Devolver a pendiente">⏳</button>
+                                            </form>
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
@@ -75,19 +92,41 @@
                         @if($tareasSinHacer->count())
                             <ul class="list-group list-group-flush">
                                 @foreach($tareasSinHacer as $tarea)
-                                    <li class="list-group-item">
-                                        <strong>{{ $tarea->title }}</strong><br>
-                                        <small>{{ \Carbon\Carbon::parse($tarea->start)->format('d/m/Y H:i') }}</small>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ $tarea->title }}</strong><br>
+                                            <small>{{ \Carbon\Carbon::parse($tarea->start)->format('d/m/Y H:i') }}</small>
+                                        </div>
+                                        <div class="d-flex">
+                                            {{-- Botón para marcar como realizada --}}
+                                            <form action="{{ route('evento.realizar', $tarea->id) }}" method="POST" class="me-1">
+                                                @csrf
+                                                <button class="btn btn-success btn-sm" title="Marcar como realizada">✔</button>
+                                            </form>
+
+                                            {{-- Botón para devolver a pendiente --}}
+                                            <form action="{{ route('evento.pendiente', $tarea->id) }}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-warning btn-sm" title="Devolver a pendiente">⏳</button>
+                                            </form>
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
                         @else
                             <p class="text-muted">¡Todo al día! 🥳</p>
                         @endif
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="mb-4 text-end">
+        <a href="{{ route('reporte.avance') }}" class="btn btn-lg btn-outline-primary shadow-sm rounded-pill px-4 py-2"
+            target="_blank">
+            📄 Generar Reporte de Avance
+        </a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
