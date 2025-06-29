@@ -23,33 +23,32 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
-       $tareasPendientes = Evento::where('user_id', auth()->id())
-                              ->where('start', '>=', now())
-                              ->orderBy('start')
-                              ->get();
 
-    return view('home', compact('tareasPendientes'));
+        $tareasPendientes = Evento::where('user_id', auth()->id())
+            ->where('start', '>=', now())
+            ->orderBy('start')
+            ->get();
+
+        return view('home', compact('tareasPendientes'));
     }
 
     public function seguimiento()
-{
-    $userId = auth()->id();
+    {
+        $userId = auth()->id();
 
-    $tareasPendientes = Evento::where('user_id', $userId)
-        ->where('start', '>=', now())
-        ->whereNull('estado') // o lo que uses como estado
-        ->get();
+        $tareasPendientes = Evento::where('user_id', $userId)
+            ->where('start', '>=', now())
+            ->whereNull('estado') // o lo que uses como estado
+            ->get();
 
-    $tareasRealizadas = Evento::where('user_id', $userId)
-        ->where('estado', 'realizada')
-        ->get();
+        $tareasRealizadas = Evento::where('user_id', $userId)
+            ->where('estado', 'realizada')
+            ->get();
 
-    $tareasSinHacer = Evento::where('user_id', $userId)
-        ->where('start', '<', now())
-        ->whereNull('estado') // o usa 'sin_hacer' si tienes ese estado
-        ->get();
-
-    return view('seguimiento', compact('tareasPendientes', 'tareasRealizadas', 'tareasSinHacer'));
-}
+        $tareasSinHacer = Evento::where('user_id', $userId)
+            ->whereNull('estado')
+            ->get();
+            
+        return view('seguimiento', compact('tareasPendientes', 'tareasRealizadas', 'tareasSinHacer'));
+    }
 }

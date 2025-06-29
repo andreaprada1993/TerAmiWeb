@@ -64,8 +64,9 @@ class EventoController extends Controller
     {
         //
         $evento = Evento::find($id);//buscar el evento por id
-        $evento->start = Carbon::createFromFormat('Y-m-d H:i:s', $evento->start)->format('Y-m-d');//convertir el evento a formato de fecha
-        $evento->end = Carbon::createFromFormat('Y-m-d H:i:s', $evento->end)->format('Y-m-d');//arregla para que solo se mire año,mes y dia
+        $evento->start = Carbon::createFromFormat('Y-m-d H:i:s', $evento->start)->format('Y-m-d\TH:i');
+        $evento->end = Carbon::createFromFormat('Y-m-d H:i:s', $evento->end)->format('Y-m-d\TH:i');
+
         return response()->json($evento);//devolviendo el formato
     }
 
@@ -93,6 +94,25 @@ class EventoController extends Controller
     }
 
     /**
+     * Marcar una tarea como pendiente
+     */
+
+    public function marcarPendiente($id)
+    {
+        $evento = Evento::findOrFail($id);
+        $evento->estado = null;
+
+        // Asegurarse que la fecha es futura
+        if ($evento->start < now()) {
+            $evento->start = now()->addMinutes(5); // o la próxima hora válida
+        }
+
+        $evento->save();
+
+        return back()->with('success', 'Tarea devuelta a pendientes.');
+    }
+
+    /**
      * Marcar una tarea como realizada.
      */
     public function marcarRealizada($id)
@@ -110,9 +130,9 @@ class EventoController extends Controller
     public function marcarSinHacer($id)
     {
         $evento = Evento::findOrFail($id);
-        $evento->estado = 'sin_hacer';
+        $evento->estado = null;
         $evento->save();
 
-        return redirect()->back()->with('success', 'Tarea marcada como sin hacer');
+        return back()->with('success', 'Tarea marcada como sin hacer.');
     }
 }
