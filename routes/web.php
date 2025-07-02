@@ -11,14 +11,22 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 })->name('inicio');
+// Ruta primer registro
+Route::get('/felicidades', function () {
+    return view('felicidades');
+})->name('felicidades')->middleware('auth');
 
 // Ruta alternativa con /welcome
 Route::get('/welcome', function () {
     return view('welcome');
-});
-
+})->middleware('auth');
 // ✅ Rutas de autenticación
 Auth::routes();
+// Ruta alternativa con /configuracion
+Route::get('/configuracion', function () {
+    return view('configuracion');
+
+})->name('configuracion');
 
 // ✅ Rutas protegidas por login
 Route::middleware(['auth'])->group(function () {
@@ -40,7 +48,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/evento/{id}/realizar', [EventoController::class, 'marcarRealizada'])->name('evento.realizar');
     Route::post('/evento/{id}/sin-hacer', [EventoController::class, 'marcarSinHacer'])->name('evento.sin_hacer');
 
+
+
     // Reporte PDF
     Route::get('/reporte-avance', [ReporteController::class, 'reporteAvance'])->name('reporte.avance');
-
+    // ruta configuracion 
+    Route::get('/configuracion', [App\Http\Controllers\UserController::class, 'edit'])->name('configuracion');
+    Route::post('/configuracion', [App\Http\Controllers\UserController::class, 'update'])->name('configuracion.update');
+    Route::delete('/perfil/eliminar', [App\Http\Controllers\UserController::class, 'eliminarCuenta'])->name('perfil.eliminar');
 });

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Evento;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 
@@ -16,7 +16,8 @@ class EventoController extends Controller
     public function index()
     {
         //
-        return view('evento.index');
+        $eventos = Evento::where('user_id', Auth::id())->get();
+        return view('evento.index', compact('eventos'));
     }
 
     /**
@@ -32,29 +33,27 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        request()->validate(Evento::$rules);//validar los datos de eventos es decir tabla agregar recordatorio
+        request()->validate(Evento::$rules);
 
         $evento = new Evento();
         $evento->title = $request->title;
         $evento->descripcion = $request->descripcion;
         $evento->start = $request->start;
         $evento->end = $request->end;
-        // 👇 Esta línea es la clave
-        $evento->user_id = auth()->id(); // 👈 Esto es lo que asegura que el evento pertenece al usuario actual
+        $evento->estado = 'pendiente'; // 👈 obligatorio
+        $evento->user_id = auth()->id();
         $evento->save();
 
-        return response()->json($evento); // para confirmar que se guardó bien
+        return response()->json($evento);
     }
-
     /**
      * Display the specified resource.
      */
     public function show(Evento $evento)
     {
         //
-        $evento = Evento::all();//acceder directamente a los registros
-        return response()->json($evento);//devolviendo el formato
+        $eventos = Evento::where('user_id', Auth::id())->get();
+        return response()->json($eventos);
     }
 
     /**
@@ -97,42 +96,37 @@ class EventoController extends Controller
      * Marcar una tarea como pendiente
      */
 
-    public function marcarPendiente($id)
-    {
-        $evento = Evento::findOrFail($id);
-        $evento->estado = null;
-
-        // Asegurarse que la fecha es futura
-        if ($evento->start < now()) {
-            $evento->start = now()->addMinutes(5); // o la próxima hora válida
-        }
-
-        $evento->save();
-
-        return back()->with('success', 'Tarea devuelta a pendientes.');
-    }
-
-    /**
-     * Marcar una tarea como realizada.
-     */
-    public function marcarRealizada($id)
+    public function marcarRealizada(Request $request, $id)
     {
         $evento = Evento::findOrFail($id);
         $evento->estado = 'realizada';
         $evento->save();
 
-        return redirect()->back()->with('success', 'Tarea marcada como realizada');
+        return redirect()->route('seguimiento', ['mes' => $request->input('mes')]);
     }
 
-    /**
-     * Marcar una tarea como sin hacer.
-     */
-    public function marcarSinHacer($id)
+    public function marcarPendiente(Request $request, $id)
     {
         $evento = Evento::findOrFail($id);
-        $evento->estado = null;
+        $evento->estado = 'pendiente';
+
+        if ($evento->start < now()) {
+            $evento->start = now()->addMinutes(5);
+        }
+
         $evento->save();
 
-        return back()->with('success', 'Tarea marcada como sin hacer.');
+        return redirect()->route('seguimiento', ['mes' => $request->input('mes')]);
     }
+
+    public function marcarSinHacer(Request $request, $id)
+    {
+        $evento = Evento::findOrFail($id);
+        $evento->estado = 'sin_hacer';
+        $evento->save();
+
+        return redirect()->route('seguimiento', ['mes' => $request->input('mes')]);
+    }
+
+
 }

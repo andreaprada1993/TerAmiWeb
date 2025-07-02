@@ -1,29 +1,47 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Evento;
-
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ReporteController extends Controller
 {
-    public function reporteAvance()
+    public function reporteAvance(Request $request)
     {
-        $userId = auth()->id();
+        $userId = Auth::id();
 
-        $todas = Evento::where('user_id', $userId)->count();
-        $realizadas = Evento::where('user_id', $userId)->where('estado', 'realizada')->count();
-        $sinHacer = Evento::where('user_id', $userId)->whereNull('estado')->where('start', '<', now())->count();
-        $pendientes = Evento::where('user_id', $userId)->whereNull('estado')->where('start', '>=', now())->count();
+        // Validar y obtener mes (YYYY-MM)
+        $mes = $request->input('mes');
+        if (!$mes || !preg_match('/^\d{4}-\d{2}$/', $mes)) {
+            $mes = now()->format('Y-m');
+        }
 
-        $porcentaje = $todas > 0 ? round(($realizadas / $todas) * 100, 2) : 0;
+        // Crear fechas inicio y fin de mes
+        $inicioMes = Carbon::createFromFormat('Y-m', $mes)->startOfMonth();
+        $finMes = Carbon::createFromFormat('Y-m', $mes)->endOfMonth();
 
-        $tareasRealizadas = Evento::where('user_id', $userId)->where('estado', 'realizada')->get();
-        $tareasPendientes = Evento::where('user_id', $userId)->whereNull('estado')->where('start', '>=', now())->get();
-        $tareasSinHacer = Evento::where('user_id', $userId)->whereNull('estado')->where('start', '<', now())->get();
+        // Query base para ese usuario y mes
+        $query = Evento::where('user_id', $userId)
+            ->whereBetween('start', [$inicioMes, $finMes]);
 
-        $pdf = Pdf::loadView('reportes.control-avance', compact(
+        // Obtener tareas según estado
+        $tareasRealizadas = (clone $query)->where('estado', 'realizada')->get();
+        $tareasPendientes = (clone $query)->where('estado', 'pendiente')->get();
+        $tareasSinHacer = (clone $query)->where('estado', 'sin_hacer')->get();
+
+        // Contar tareas para resumen
+        $realizadas = $tareasRealizadas->count();
+        $pendientes = $tareasPendientes->count();
+        $sinHacer = $tareasSinHacer->count();
+        $total = $realizadas + $pendientes + $sinHacer;
+        $porcentaje = $total > 0 ? round(($realizadas / $total) * 100, 2) : 0;
+
+        // Generar PDF con la vista y descargarlo
+        return Pdf::loadView('reportes.control-avance', compact(
             'realizadas',
             'pendientes',
             'sinHacer',
@@ -31,9 +49,6 @@ class ReporteController extends Controller
             'tareasRealizadas',
             'tareasPendientes',
             'tareasSinHacer'
-        ));
-
-        return $pdf->download('control_avance.pdf');
+        ))->download("control_avance_{$mes}.pdf");
     }
-
 }
