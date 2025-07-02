@@ -120,3 +120,5 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
 }); //esta funcion se ejecuta cuando el DOM se ha cargado completamente
+
+

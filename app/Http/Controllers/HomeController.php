@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\Evento;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
+
 
 
 class HomeController extends Controller
@@ -25,30 +30,50 @@ class HomeController extends Controller
     {
 
         $tareasPendientes = Evento::where('user_id', auth()->id())
-            ->where('start', '>=', now())
-            ->orderBy('start')
-            ->get();
+        ->where('estado', 'pendiente')       // ✅ Solo tareas pendientes
+        ->where('start', '>=', now())        // ✅ Solo tareas futuras
+        ->orderBy('start')
+        ->get();
 
-        return view('home', compact('tareasPendientes'));
+    return view('home', compact('tareasPendientes'));
     }
 
-    public function seguimiento()
-    {
-        $userId = auth()->id();
 
-        $tareasPendientes = Evento::where('user_id', $userId)
-            ->where('start', '>=', now())
-            ->whereNull('estado') // o lo que uses como estado
-            ->get();
 
-        $tareasRealizadas = Evento::where('user_id', $userId)
-            ->where('estado', 'realizada')
-            ->get();
+public function seguimiento(Request $request)
+{
+    $userId = Auth::id();
 
-        $tareasSinHacer = Evento::where('user_id', $userId)
-            ->whereNull('estado')
-            ->get();
-            
-        return view('seguimiento', compact('tareasPendientes', 'tareasRealizadas', 'tareasSinHacer'));
+    // Obtener el mes seleccionado o usar el mes actual
+    $mesSeleccionado = $request->input('mes');
+    if (!$mesSeleccionado || !preg_match('/^\d{4}-\d{2}$/', $mesSeleccionado)) {
+        $mesSeleccionado = now()->format('Y-m');
     }
+
+    try {
+        $inicioMes = Carbon::createFromFormat('Y-m', $mesSeleccionado)->startOfMonth();
+        $finMes = Carbon::createFromFormat('Y-m', $mesSeleccionado)->endOfMonth();
+    } catch (\Exception $e) {
+        $inicioMes = now()->startOfMonth();
+        $finMes = now()->endOfMonth();
+    }
+
+    // Base filtrada por usuario y mes
+    $eventosDelMes = Evento::where('user_id', $userId)
+        ->whereBetween('start', [$inicioMes, $finMes])
+        ->get();
+
+    // Agrupación por estado
+    $tareasPendientes = $eventosDelMes->where('estado', 'pendiente');
+    $tareasRealizadas = $eventosDelMes->where('estado', 'realizada');
+    $tareasSinHacer   = $eventosDelMes->where('estado', 'sin_hacer');
+
+    return view('seguimiento', compact(
+        'tareasPendientes',
+        'tareasRealizadas',
+        'tareasSinHacer',
+        'mesSeleccionado'
+    ));
+}
+
 }

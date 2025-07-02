@@ -114,21 +114,43 @@
 
       <div class="mb-3">
         <label for="email" class="form-label">Correo</label>
-        <input id="email" type="email" placeholder="correo@example.com"
-          class="form-control @error('email') is-invalid @enderror" name="email" required autofocus>
+        <input id="email" type="email" placeholder="ingresa correo"
+          class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required
+          autofocus>
+
         @error('email')
-          <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
-        @enderror
+      <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+    @enderror
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
-        <input id="password" type="password" placeholder="********"
-          class="form-control @error('password') is-invalid @enderror" name="password" required>
+        <div class="input-group">
+          <input id="password" type="password" placeholder="********"
+            class="form-control @error('password') is-invalid @enderror" name="password" required>
+          <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()" tabindex="-1">
+            <span id="icon">👁️</span>
+          </button>
+        </div>
         @error('password')
-          <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
-        @enderror
+      <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+    @enderror
       </div>
+
+      <script>
+        function togglePassword() {
+          const input = document.getElementById("password");
+          const icon = document.getElementById("icon");
+
+          if (input.type === "password") {
+            input.type = "text";
+            icon.textContent = "🙈";
+          } else {
+            input.type = "password";
+            icon.textContent = "👁️";
+          }
+        }
+      </script>
 
       <div class="mb-3 form-check">
         <input class="form-check-input" type="checkbox" name="remember" id="remember">
@@ -141,14 +163,14 @@
 
       <div class="d-flex justify-content-center">
         @if (Route::has('password.request'))
-          <a class="btn btn-link" href="{{ route('password.request') }}">
-            ¿Olvidaste tu contraseña?
-          </a>
-        @endif
+      <a class="btn btn-link" href="{{ route('password.request') }}">
+        ¿Olvidaste tu contraseña?
+      </a>
+    @endif
       </div>
       <div class="text-center mt-2">
-    <p>¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate</a></p>
-</div>
+        <p>¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate</a></p>
+      </div>
 
       <div class="text-center mt-2">
         <a href="{{ route('register') }}" class="text-light">¿No tienes cuenta? Regístrate</a>

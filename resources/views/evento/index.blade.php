@@ -1,6 +1,12 @@
 @extends('layouts.app')
 @section('content')
 
+ <div class="mt-3 ms-2">
+    <a href="{{ route('home') }}" class="btn btn-light" style="font-size: 1.4rem;">
+        ←
+    </a>
+</div>
+
   <div class="container">
 
     <div id="agenda"></div>
@@ -56,6 +62,7 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
 @endsection
