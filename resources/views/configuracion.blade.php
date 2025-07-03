@@ -41,14 +41,16 @@
         </form>
     </div>
     <div>
-        <form action="{{ route('perfil.eliminar') }}" method="POST"
-            onsubmit="return confirm('😢 ¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">
-                🗑️ Eliminar cuenta
-            </button>
-        </form>
+       @if(auth()->user()->rol !== 'admin')
+    <form action="{{ route('perfil.eliminar') }}" method="POST"
+        onsubmit="return confirm('😢 ¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">
+            🗑️ Eliminar cuenta
+        </button>
+    </form>
+@endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -2,222 +2,260 @@
 
 @section('content')
 
-
-
 @section('content')
   @auth
-    <div class="d-flex justify-content-center align-items-center vh-100" style="position: relative; overflow: hidden;">
-    <!-- Imagen de fondo con animación -->
-    <div style="
-      background-image: url('{{ asset('img/carrusel.jpg') }}');
-      background-size: cover;
-      background-position: center;
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 1;
-      animation: zoomIn 15s ease-in-out infinite alternate;
-    "></div>
+    <div class="d-flex justify-content-center align-items-center position-relative overflow-hidden"
+         style="min-height: 100vh;">
 
-    <!-- Texto y botón sobre fondo -->
-    <div class="text-center text-white position-relative"
-    style="z-index: 2; background-color: rgba(0, 0, 0, 0.4); padding: 2rem; border-radius: 1rem;">
-    <h2 class="mb-3">¡Gracias por preferir <span style="color: #c8c6ff;">TerAmi</span>!</h2>
-    <a href="{{ route('home') }}" class="btn btn-light btn-lg">Ir al Inicio</a>
-    </div>
+      <!-- Imagen de fondo con animación -->
+      <img src="{{ asset('img/carrusel.jpg') }}" class="position-absolute w-100 h-100 object-fit-cover responsive-bg"
+           style="z-index: 1; animation: zoomIn 15s ease-in-out infinite alternate;" alt="Fondo TerAmi">
+
+      <!-- Texto y botón sobre la imagen -->
+      <div class="text-center text-white position-relative"
+           style="z-index: 2; background-color: rgba(0, 0, 0, 0.4); padding: 2rem; border-radius: 1rem;">
+        <h2 class="mb-3">¡Gracias por preferir <span style="color: #c8c6ff;">TerAmi</span>!</h2>
+        <a href="{{ route('home') }}" class="btn btn-light btn-lg">Ir al Inicio</a>
+      </div>
     </div>
 
     <!-- Animación CSS -->
     <style>
-    @keyframes zoomIn {
-    0% {
-      transform: scale(1);
-    }
+      @keyframes zoomIn {
+        0% {
+          transform: scale(1);
+        }
 
-    100% {
-      transform: scale(1.05);
-    }
-    }
+        100% {
+          transform: scale(1.05);
+        }
+      }
+
+      .object-fit-cover {
+        object-fit: cover;
+      }
+
+      @media (max-width: 768px) {
+        .responsive-bg {
+          object-fit: contain !important;
+          height: auto !important;
+        }
+      }
     </style>
   @endauth
 
-  <!-- Carrusel -->
-  <div id="carouselBienvenida" class="carousel slide carousel-fade" data-bs-ride="carousel">
-    <div class="carousel-inner">
+  @guest
+    <!-- Carrusel -->
+    <div id="carouselBienvenida" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
 
-    <!-- Slide 1 -->
-    <div class="carousel-item active" data-bs-interval="8000">
-      <div class="carousel-slide bg-terami-1">
+        <!-- Slide 1 -->
+        <div class="carousel-item active" data-bs-interval="8000">
+          <div class="carousel-slide bg-terami-1">
+            <div class="logo-inside-slide">
+              <img src="{{ asset('img/logo.png') }}" alt="TerAmi" class="logo-img">
+            </div>
+            <div class="overlay-text">
+              <h1>Bienvenido a <span class="text-accent">TerAmiWeb</span></h1>
+              <p>Organiza tu día fácilmente</p>
+            </div>
+          </div>
+        </div>
 
-      <!-- Logo dentro del slide -->
-      <div class="logo-inside-slide">
-        <img src="{{ asset('img/logo.png') }}" alt="TerAmi" class="logo-img">
+        <!-- Slide 2 -->
+        <div class="carousel-item" data-bs-interval="8000">
+          <div class="carousel-slide bg-terami-2">
+            <div class="logo-inside-slide">
+              <img src="{{ asset('img/logo.png') }}" alt="TerAmi" class="logo-img">
+            </div>
+            <div class="overlay-text">
+              <h1>Gestiona tus metas</h1>
+              <p>Visualiza y cumple objetivos fácilmente</p>
+              <a href="{{ route('login') }}" class="btn btn-light m-2">Iniciar sesión</a>
+              <a href="{{ route('register') }}" class="btn btn-outline-light m-2">Registrarse</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 corregido -->
+        <div class="carousel-item" data-bs-interval="false">
+          <div class="carousel-slide bg-terami-3">
+            <div class="logo-inside-slide">
+              <img src="{{ asset('img/logo.png') }}" alt="TerAmi" class="logo-img">
+            </div>
+            <div class="overlay-text">
+              <h1>Únete a <span class="text-accent">TerAmiWeb</span></h1>
+              <p>Haz parte de la comunidad que transforma su rutina</p>
+              <div class="d-flex flex-wrap justify-content-center gap-2">
+                <a href="{{ route('login') }}" class="btn btn-light btn-slide3">Iniciar sesión</a>
+                <a href="{{ route('register') }}" class="btn btn-outline-light btn-slide3">Registrarse</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="overlay-text">
-        <h1>Bienvenido a <span class="text-accent">TerAmiWeb</span></h1>
-        <p>Organiza tu día fácilmente</p>
-      </div>
-      </div>
+      <!-- Controles -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselBienvenida" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselBienvenida" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
     </div>
 
-    <!-- Slide 2 -->
-    <div class="carousel-item" data-bs-interval="8000">
-      <div class="carousel-slide bg-terami-2">
+    <!-- Estilos generales -->
+    <style>
+      html, body {
+        height: 100%;
+        overflow-x: hidden;
+      }
 
-      <!-- Logo dentro del slide -->
-      <div class="logo-inside-slide">
-        <img src="{{ asset('img/logo.png') }}" alt="TerAmi" class="logo-img">
-      </div>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #e9ecef;
+      }
 
-      <div class="overlay-text">
-        <h1>Gestiona tus metas</h1>
-        <p>Visualiza y cumple objetivos fácilmente</p>
-        <a href="{{ route('login') }}" class="btn btn-light m-2">Iniciar sesión</a>
-        <a href="{{ route('register') }}" class="btn btn-outline-light m-2">Registrarse</a>
-      </div>
-      </div>
-    </div>
+      .carousel,
+      .carousel-inner,
+      .carousel-item {
+        height: 100vh;
+      }
 
-    <!-- Slide 3 -->
-    <div class="carousel-item" data-bs-interval="false">
-      <div class="carousel-slide bg-terami-3">
+      .carousel-item {
+        min-height: 100vh;
+        overflow-y: auto;
+      }
 
-      <!-- Logo dentro del slide -->
-      <div class="logo-inside-slide">
-        <img src="{{ asset('img/logo.png') }}" alt="TerAmi" class="logo-img">
-      </div>
+      .carousel-slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        filter: brightness(0.95);
+      }
 
-      <div class="overlay-text">
-        <h1>Únete a <span class="text-accent">TerAmiWeb</span></h1>
-        <p>Haz parte de la comunidad que transforma su rutina</p>
-        <a href="{{ route('login') }}" class="btn btn-light m-2">Iniciar sesión</a>
-        <a href="{{ route('register') }}" class="btn btn-outline-light m-2">Registrarse</a>
-      </div>
-      </div>
-    </div>
+      .bg-terami-1 {
+        background: linear-gradient(135deg, #c8c6ff, #f2f2f2);
+      }
 
-    </div>
+      .bg-terami-2 {
+        background: linear-gradient(135deg, #d1ecff, #ffffff);
+      }
 
-    <!-- Controles -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselBienvenida" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-    <span class="visually-hidden">Anterior</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselBienvenida" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-    <span class="visually-hidden">Siguiente</span>
-    </button>
-  </div>
+      .bg-terami-3 {
+        background: linear-gradient(135deg, #f8e1ff, #ffffff);
+      }
 
+      .text-accent {
+        color: #6f42c1;
+      }
 
-  <!-- Estilos -->
-  <style>
-    body {
-    margin: 0;
-    padding: 0;
-    background-color: #e9ecef;
-    }
+      .logo-inside-slide {
+        position: absolute;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+      }
 
-    .carousel,
-    .carousel-inner,
-    .carousel-item {
-    height: 100vh;
-    }
+      .logo-img {
+        width: 160px;
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+      }
 
-    .carousel-slide {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    filter: brightness(0.95);
-    }
+      .logo-img:hover {
+        opacity: 1;
+      }
 
-    .bg-terami-1 {
-    background: linear-gradient(135deg, #c8c6ff, #f2f2f2);
-    }
+      .overlay-text {
+        text-align: center;
+        color: #343a40;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        padding: 2rem;
+        border-radius: 1rem;
+        max-width: 90%;
+        background-color: rgba(255, 255, 255, 0.85);
+      }
 
-    .bg-terami-2 {
-    background: linear-gradient(135deg, #d1ecff, #ffffff);
-    }
+      .overlay-text h1 {
+        font-size: 3rem;
+        font-weight: bold;
+      }
 
-    .bg-terami-3 {
-    background: linear-gradient(135deg, #f8e1ff, #ffffff);
-    }
+      .overlay-text p {
+        font-size: 1.5rem;
+      }
 
-    .text-accent {
-    color: #6f42c1;
-    }
+      .btn {
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
 
-    .logo-inside-slide {
-    position: absolute;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    }
+      .btn-slide3 {
+        width: auto;
+      }
 
-    .logo-img {
-    width: 160px;
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
-    }
+      @media (max-width: 768px) {
+        .logo-img {
+          width: 90px;
+        }
 
-    .logo-img:hover {
-    opacity: 1;
-    }
+        .overlay-text {
+          padding: 1.2rem;
+          max-width: 95%;
+        }
 
-    @media (max-width: 768px) {
-    .logo-img {
-      width: 120px;
-    }
-    }
+        .overlay-text h1 {
+          font-size: 2rem;
+        }
 
-    .overlay-text {
-    text-align: center;
-    color: #343a40;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    padding: 2rem;
-    border-radius: 1rem;
-    max-width: 90%;
-    background-color: rgba(255, 255, 255, 0.85);
-    }
+        .overlay-text p {
+          font-size: 1rem;
+        }
 
-    .overlay-text h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    }
+        .btn {
+          font-size: 1rem;
+          padding: 0.5rem 1rem;
+        }
+      }
 
-    .overlay-text p {
-    font-size: 1.5rem;
-    }
+      @media (max-width: 576px) {
+        .btn-slide3 {
+          width: 100%;
+        }
 
-    .btn {
-    font-size: 1.1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
+        .logo-img {
+          width: 80px;
+        }
 
-    @media (max-width: 768px) {
-    .overlay-text h1 {
-      font-size: 2rem;
-    }
+        .overlay-text h1 {
+          font-size: 1.6rem;
+        }
 
-    .overlay-text p {
-      font-size: 1rem;
-    }
+        .overlay-text p {
+          font-size: 0.95rem;
+        }
 
-    .btn {
-      font-size: 1rem;
-    }
+        .overlay-text {
+          padding: 1rem;
+        }
 
-    .logo-img {
-      width: 90px;
-    }
-    }
-  </style>
+        .logo-inside-slide {
+          top: 20px;
+        }
+      }
+    </style>
+  @endguest
 
 @endsection

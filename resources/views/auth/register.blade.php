@@ -87,6 +87,53 @@
             width: 110px;
             opacity: 0.95;
         }
+
+        @media (max-width: 576px) {
+    .row.mb-3,
+    .row.mb-4 {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .col-md-4,
+    .col-md-6 {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        text-align: left;
+    }
+
+    label.col-form-label {
+        margin-bottom: 0.4rem;
+        text-align: left;
+    }
+
+    .form-control {
+        font-size: 1rem;
+        padding: 0.6rem 0.75rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .card-header {
+        font-size: 1.4rem;
+    }
+
+    .login-link p {
+        font-size: 0.9rem;
+    }
+
+    .glass-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .logo-top img {
+        width: 90px;
+    }
+}
+
     </style>
 
     <div class="container h-100 d-flex justify-content-center align-items-center">
@@ -127,16 +174,16 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="telefono" class="col-md-4 col-form-label text-md-end">Celular</label>
-                                <div class="col-md-6">
-                                    <input id="telefono" type="text"
-                                        class="form-control @error('telefono') is-invalid @enderror" name="telefono"
-                                        value="{{ old('telefono') }}" required pattern="[0-9]+" title="Solo números">
-                                    @error('telefono')
-                                        <span class="text-danger" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
+    <label for="celular" class="col-md-4 col-form-label text-md-end">Celular</label>
+    <div class="col-md-6">
+        <input id="celular" type="text"
+            class="form-control @error('celular') is-invalid @enderror" name="celular"
+            value="{{ old('celular') }}" required pattern="[0-9]+" title="Solo números">
+        @error('celular')
+            <span class="text-danger" role="alert"><strong>{{ $message }}</strong></span>
+        @enderror
+    </div>
+</div>
 
                             <div class="row mb-3">
                                 <label for="password" class="col-md-4 col-form-label text-md-end">Contraseña</label>

@@ -62,41 +62,49 @@
                                     </li>
                                 @endif
 
-                            @else
-                                {{-- Menú desplegable del usuario --}}
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button"
-                                        data-bs-toggle="dropdown">
-                                        {{ Auth::user()->name }}
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('home') }}">🏠 Inicio</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('evento.index') }}">📅 Calendario</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('seguimiento') }}">📋 Seguimiento</a>
-                                        </li>
-                                         <li>
-                                            <a class="dropdown-item" href="{{ route('configuracion') }}">🔧 Configuracion</a>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                🔒 Cerrar Sesión
-                                            </a>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endguest
+                          @else
+    {{-- Menú desplegable del usuario --}}
+    <li class="nav-item dropdown">
+        <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button"
+            data-bs-toggle="dropdown">
+            {{ Auth::user()->name }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            @if (Auth::user()->rol === 'admin')
+                <li>
+                    <a class="dropdown-item" href="{{ route('home') }}">🏠 Inicio</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('configuracion') }}">⚙️ Configuración</a>
+                </li>
+            @else
+                <li>
+                    <a class="dropdown-item" href="{{ route('home') }}">🏠 Inicio</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('evento.index') }}">📅 Calendario</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('seguimiento') }}">📋 Seguimiento</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('configuracion') }}">🔧 Configuración</a>
+                </li>
+            @endif
+
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    🔒 Cerrar Sesión
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li>
+        </ul>
+    </li>
+@endguest
                         </ul>
                     </div>
                 </div>

@@ -26,5 +26,9 @@ class Evento extends Model
         'user_id' // 🔑 importante para identificar al usuario dueño del evento
     ];
 
-
+   // Relación: Un evento pertenece a un usuario
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
