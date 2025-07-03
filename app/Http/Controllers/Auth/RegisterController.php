@@ -50,12 +50,18 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255', 'regex:/^[\pL\s\-]+$/u'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'telefono' => ['required', 'digits_between:7,15'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $messages = [
+        'celular.unique' => 'Este número de celular ya está registrado.',
+        'email.unique' => 'Este correo ya está en uso.',
+        // Puedes añadir más mensajes si quieres
+    ];
+
+    return \Validator::make($data, [
+        'name' => ['required', 'string', 'max:255', 'regex:/^[\pL\s\-]+$/u'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'celular' => ['required', 'digits_between:7,15', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+    ], $messages);
     }
     /**
      * Create a new user instance after a valid registration.

@@ -8,6 +8,16 @@
 
     <div class="container mt-5">
 
+     @if(Auth::user()->rol === 'admin')
+            <h2>Bienvenido, Administrador</h2>
+            <p>Aquí puedes gestionar usuarios, revisar actividades, etc.</p>
+        @else
+            <h2 class="text-primary">¡Hola {{ Auth::user()->name }}!</h2>
+            <p class="text-muted">Aquí verás tus tareas y avances.</p>
+        @endif
+
+
+
         {{-- Bienvenida --}}
         <div class="text-center mb-4">
             <img src="{{ asset('img/mapacheLogo.png') }}" alt="Logo TerAmi" height="80">
@@ -38,9 +48,9 @@
                 @endif
             </div>
         </div>
-
-        {{-- llamando a chatbot --}}
-         @include('components.chatbot')
+       
+        {{-- llamando a chatbot
+        @include('components.chatbot')--}}
 
         {{-- Botón para agregar nueva tarea --}}
         <div class="text-center mt-3">
@@ -58,8 +68,8 @@
 
     </div>
 @endsection
- {{-- Bootstrap JS necesario para el menú --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{{-- Bootstrap JS necesario para el menú --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 @section('scripts')
     <script src="{{ asset('js/chatbot.js') }}"></script>

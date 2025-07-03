@@ -9,19 +9,16 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('celular')->nullable();
-        });
-    }
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->string('celular')->unique()->after('email');
+    });
+}
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
-    }
+public function down()
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->dropColumn('celular');
+    });
+}
 };
